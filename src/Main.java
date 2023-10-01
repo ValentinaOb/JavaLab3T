@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.*;
+import java.math.*;
 
 public class Main {
 
@@ -12,7 +13,8 @@ public class Main {
             switch (a) {
                 case 1:
                     main1(args);
-                    // case 2 : main2(args);
+                case 2:
+                    main2(args);
                     // case 3 : main3(args);
             }
         }
@@ -37,6 +39,27 @@ public class Main {
             two.Show();
             Document three = new Pax(name, a);
             three.Show();
+        }
+    }
+
+    public static void main2(String[] args) {
+        try (Scanner in = new Scanner(System.in)) {
+            Scanner s = new Scanner(System.in);
+
+            System.out.println("n: ");
+            int n = in.nextInt();
+            System.out.println("A[]: ");
+            int[] a = new int[10];
+            for (int i = 0; i < n; i++) {
+                a[i] = in.nextInt();
+            }
+            System.out.println("Pos: ");
+            int p = in.nextInt();
+
+            Series one = new Linear();
+            one.toString();
+            Series two = new Exponential();
+            two.toString();
         }
     }
 }
@@ -117,5 +140,105 @@ class Pax extends Document {
     public void Show() {
 
         System.out.printf("Document %s Pax %s \n", super.Name(), sum);
+    }
+}
+
+abstract class Series {
+
+    int a[] = new int[10];
+    int d = a[2] - a[1];
+
+    int b[] = new int[10];
+    int q = a[2] / a[1];
+
+    int parta, partg;
+    int suma, sumg;
+
+    public abstract int p();
+
+    public abstract int s();
+
+    public abstract int equal();
+
+    static int pow(int a, int b) {
+        int p = 1;
+        for (int i = 1; i <= b; i++) {
+            p = p * a;
+        }
+        return p;
+    }
+
+    /*
+     * public int Arp(int n) {
+     * this.parta = this.a[1] + this.d * (n - 1);
+     * return this.parta;
+     * }
+     * 
+     * public int Ars(int n) {
+     * this.suma = ((this.a[1] + this.a[n]) / 2) * n;
+     * return this.suma;
+     * }
+     * 
+     * public int Gp(int n) {
+     * this.partg = this.b[1] + pow(this.q, (n - 1));
+     * return this.partg;
+     * }
+     * 
+     * public int Gs(int n) {
+     * this.sumg = (this.b[1] * (pow(this.q, (n)) - 1)) / (q - 1);
+     * return this.sumg;
+     * }
+     */
+    public String toString() {
+        return "\nArp" + parta + "\nArs=" + suma + "\nGp" + partg + "\nGs=" + sumg;
+    }
+
+}
+
+abstract class Linear extends Series {
+
+    int p = 0;
+    int s = 0;
+
+    public Linear(int a[]) {
+        this.a = a;
+    }
+
+    public int p(int n) {
+        p = this.a[1] + this.d * (n - 1);
+        return this.p;
+    }
+
+    public int s(int n) {
+        s = ((this.a[1] + this.a[n]) / 2) * n;
+        return this.s;
+    }
+
+    public String toString() {
+        return "Lp" + p + "\nLs=" + s;
+    }
+}
+
+abstract class Exponential extends Series {
+
+    int pa;
+    int su;
+
+    public Exponential(int a[]) {
+        this.a = a;
+    }
+
+    public int Ep(int n) {
+        pa = this.b[1] + pow(this.q, (n - 1));
+        return pa;
+    }
+
+    public int Es(int n) {
+        su = (this.b[1] * (pow(this.q, (n)) - 1)) / (q - 1);
+        return su;
+    }
+
+    public String toString() {
+        return "\nEp" + pa + "\nEs=" + su;
     }
 }
