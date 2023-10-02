@@ -44,21 +44,10 @@ public class Main {
 
     public static void main2(String[] args) {
         try (Scanner in = new Scanner(System.in)) {
-            Scanner s = new Scanner(System.in);
 
-            System.out.println("n: ");
-            int n = in.nextInt();
-            System.out.println("A[]: ");
-            int[] a = new int[10];
-            for (int i = 0; i < n; i++) {
-                a[i] = in.nextInt();
-            }
-            System.out.println("Pos: ");
-            int p = in.nextInt();
-
-            Series one = new Linear();
+            Series one = new linear();
             one.toString();
-            Series two = new Exponential();
+            Series two = new exponential();
             two.toString();
         }
     }
@@ -195,13 +184,23 @@ abstract class Series {
 
 }
 
-abstract class Linear extends Series {
+class linear extends Series {
 
     int p = 0;
     int s = 0;
+    int[] a = new int[10];
 
-    public Linear(int a[]) {
-        this.a = a;
+    public linear() {
+        try (Scanner in = new Scanner(System.in)) {
+            System.out.println("n: ");
+            int n = in.nextInt();
+            System.out.println("A[]: ");
+            for (int i = 0; i < n; i++) {
+                a[i] = in.nextInt();
+            }
+            System.out.println("Pos: ");
+            p = in.nextInt();
+        }
     }
 
     public int p(int n) {
@@ -219,22 +218,32 @@ abstract class Linear extends Series {
     }
 }
 
-abstract class Exponential extends Series {
+class exponential extends Series {
 
     int pa;
     int su;
+    int[] b = new int[10];
 
-    public Exponential(int a[]) {
-        this.a = a;
+    public exponential() {
+        try (Scanner in = new Scanner(System.in)) {
+            System.out.println("n: ");
+            int n = in.nextInt();
+            System.out.println("A[]: ");
+            for (int i = 0; i < n; i++) {
+                b[i] = in.nextInt();
+            }
+            System.out.println("Pos: ");
+            pa = in.nextInt();
+        }
     }
 
     public int Ep(int n) {
-        pa = this.b[1] + pow(this.q, (n - 1));
+        pa = b[1] + pow(q, (n - 1));
         return pa;
     }
 
     public int Es(int n) {
-        su = (this.b[1] * (pow(this.q, (n)) - 1)) / (q - 1);
+        su = (b[1] * (pow(q, (n)) - 1)) / (q - 1);
         return su;
     }
 
