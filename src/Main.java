@@ -41,18 +41,38 @@ public class Main {
     }
 
     public static void main2(String[] args) {
-        /*
-         * Linear one = new Linear();
-         * one.l();
-         * one.p();
-         * one.s();
-         * one.toStr();
-         */
+
+        Linear one = new Linear();
+        one.l();
+        one.p();
+        one.s();
+        one.toStr();
+        one.equal();
+
         Exponential two = new Exponential();
         two.l();
         two.p();
         two.s();
         two.toStr();
+        two.equal();
+
+    }
+
+    public static void main3(String[] args) {
+
+        S one = new L();
+        one.l();
+        one.p();
+        one.s();
+        one.toStr();
+        one.equal();
+
+        S two = new E();
+        two.l();
+        two.p();
+        two.s();
+        two.toStr();
+        two.equal();
 
     }
 }
@@ -152,7 +172,7 @@ abstract class Series {
 
     public abstract int s();
 
-    // public abstract int equal();
+    public abstract void equal();
 
     public abstract int pow(int a, int b);
 
@@ -204,6 +224,25 @@ class Linear extends Series {
         return sum;
     }
 
+    public void equal() {
+        if (part == 0) {
+            System.out.println("P = 0\n");
+        } else
+            System.out.println("P != 0\n");
+
+        if (sum == 0) {
+            System.out.println("S = 0\n");
+        } else
+            System.out.println("S != 0\n");
+
+        if (part > sum) {
+            System.out.println("P > S\n");
+        } else if (part < sum) {
+            System.out.println("P < S\n");
+        } else
+            System.out.println("P = S\n");
+    }
+
     public void toStr() {
         System.out.println("\nLp: " + part + "\nLs: " + sum);
     }
@@ -251,6 +290,177 @@ class Exponential extends Series {
         sum = (b[0] * (pow(q, n + 1) - 1)) / (q - 1);
         System.out.println("Part: " + sum);
         return sum;
+    }
+
+    public void equal() {
+        if (part == 0) {
+            System.out.println("P = 0\n");
+        } else
+            System.out.println("P != 0\n");
+
+        if (sum == 0) {
+            System.out.println("S = 0\n");
+        } else
+            System.out.println("S != 0\n");
+
+        if (part > sum) {
+            System.out.println("P > S\n");
+        } else if (part < sum) {
+            System.out.println("P < S\n");
+        } else
+            System.out.println("P = S\n");
+    }
+
+    public void toStr() {
+        System.out.println("\nEp: " + part + "\nEs: " + sum + "\n");
+    }
+}
+
+interface S {
+
+    void l();
+
+    int p();
+
+    int s();
+
+    void equal();
+
+    int pow(int a, int b);
+
+    void toStr();
+
+}
+
+class L implements S {
+
+    int part = 0;
+    int sum = 0;
+    int[] a = new int[10];
+    int d;
+    int p = 1;
+    int n = 0;
+
+    public int pow(int a, int b) {
+        for (int i = 1; i <= b; i++) {
+            p = p * a;
+        }
+        return p;
+    }
+
+    public void l() {
+        try (Scanner in = new Scanner(System.in)) {
+            System.out.println("n: ");
+            int l = in.nextInt();
+            System.out.println("A[]: ");
+            for (int i = 0; i < l; i++) {
+                a[i] = in.nextInt();
+            }
+            System.out.println("Pos: ");
+            n = in.nextInt();
+        }
+    }
+
+    public int p() {
+        d = a[1] - a[0];
+        part = a[0] + d * (n);
+        System.out.println("D: " + d);
+        System.out.println("Part: " + part);
+        return part;
+    }
+
+    public int s() {
+        sum = ((a[0] + part) / 2) * n;
+        System.out.println("An: " + part);
+        System.out.println("Sum: " + sum);
+        return sum;
+    }
+
+    public void equal() {
+        if (part == 0) {
+            System.out.println("P = 0\n");
+        } else
+            System.out.println("P != 0\n");
+
+        if (sum == 0) {
+            System.out.println("S = 0\n");
+        } else
+            System.out.println("S != 0\n");
+
+        if (part > sum) {
+            System.out.println("P > S\n");
+        } else if (part < sum) {
+            System.out.println("P < S\n");
+        } else
+            System.out.println("P = S\n");
+    }
+
+    public void toStr() {
+        System.out.println("\nLp: " + part + "\nLs: " + sum);
+    }
+}
+
+class E implements S {
+
+    int part = 0;
+    int sum = 0;
+    int[] b = new int[10];
+    int q = 0;
+    int n = 0;
+
+    public int pow(int a, int b) {
+        int p = 1;
+        for (int i = 0; i < b; i++) {
+            p = p * a;
+        }
+        return p;
+    }
+
+    public void l() {
+        try (Scanner in = new Scanner(System.in)) {
+            System.out.println("\n\nn: ");
+            int l = in.nextInt();
+            System.out.println("B[]: ");
+            for (int i = 0; i < l; i++) {
+                b[i] = in.nextInt();
+            }
+            System.out.println("Pos: ");
+            n = in.nextInt();
+        }
+    }
+
+    public int p() {
+        q = b[1] / b[0];
+        part = pow(q, (n + 1));
+        System.out.println("q: " + q);
+        System.out.println("q^(n+1): " + pow(q, (n + 1)));
+        System.out.println("Part: " + part);
+        return part;
+    }
+
+    public int s() {
+        sum = (b[0] * (pow(q, n + 1) - 1)) / (q - 1);
+        System.out.println("Part: " + sum);
+        return sum;
+    }
+
+    public void equal() {
+        if (part == 0) {
+            System.out.println("P = 0\n");
+        } else
+            System.out.println("P != 0\n");
+
+        if (sum == 0) {
+            System.out.println("S = 0\n");
+        } else
+            System.out.println("S != 0\n");
+
+        if (part > sum) {
+            System.out.println("P > S\n");
+        } else if (part < sum) {
+            System.out.println("P < S\n");
+        } else
+            System.out.println("P = S\n");
     }
 
     public void toStr() {
