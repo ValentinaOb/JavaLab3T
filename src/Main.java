@@ -13,7 +13,8 @@ public class Main {
                     main1(args);
                 case 2:
                     main2(args);
-                    // case 3 : main3(args);
+                case 3:
+                    main3(args);
             }
         }
     }
