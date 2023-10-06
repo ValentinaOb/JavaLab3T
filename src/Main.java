@@ -1,6 +1,4 @@
 import java.util.Scanner;
-import java.util.*;
-import java.math.*;
 
 public class Main {
 
@@ -45,10 +43,18 @@ public class Main {
     public static void main2(String[] args) {
         try (Scanner in = new Scanner(System.in)) {
 
-            Series one = new linear();
-            one.toString();
-            Series two = new exponential();
-            two.toString();
+            Linear one = new Linear();
+            one.l();
+            one.p();
+            one.s();
+            one.toStr();
+
+            Exponential two = new Exponential();
+            two.l();
+            two.p();
+            two.s();
+            two.toStr();
+
         }
     }
 }
@@ -135,119 +141,122 @@ class Pax extends Document {
 abstract class Series {
 
     int a[] = new int[10];
-    int d = a[2] - a[1];
+    int d;
 
     int b[] = new int[10];
-    int q = a[2] / a[1];
+    int q;
 
-    int parta, partg;
-    int suma, sumg;
+    int part, sum;
+
+    public abstract void l();
 
     public abstract int p();
 
     public abstract int s();
 
-    public abstract int equal();
+    // public abstract int equal();
 
-    static int pow(int a, int b) {
-        int p = 1;
+    public abstract int pow(int a, int b);
+
+    public abstract void toStr();
+
+}
+
+class Linear extends Series {
+
+    int part = 0;
+    int sum = 0;
+    int[] a = new int[10];
+    int d;
+    int p = 1;
+    int n = 0; // pos
+
+    public int pow(int a, int b) {
         for (int i = 1; i <= b; i++) {
             p = p * a;
         }
         return p;
     }
 
-    /*
-     * public int Arp(int n) {
-     * this.parta = this.a[1] + this.d * (n - 1);
-     * return this.parta;
-     * }
-     * 
-     * public int Ars(int n) {
-     * this.suma = ((this.a[1] + this.a[n]) / 2) * n;
-     * return this.suma;
-     * }
-     * 
-     * public int Gp(int n) {
-     * this.partg = this.b[1] + pow(this.q, (n - 1));
-     * return this.partg;
-     * }
-     * 
-     * public int Gs(int n) {
-     * this.sumg = (this.b[1] * (pow(this.q, (n)) - 1)) / (q - 1);
-     * return this.sumg;
-     * }
-     */
-    public String toString() {
-        return "\nArp" + parta + "\nArs=" + suma + "\nGp" + partg + "\nGs=" + sumg;
-    }
-
-}
-
-class linear extends Series {
-
-    int p = 0;
-    int s = 0;
-    int[] a = new int[10];
-
-    public linear() {
+    public void l() {
         try (Scanner in = new Scanner(System.in)) {
             System.out.println("n: ");
-            int n = in.nextInt();
+            int l = in.nextInt();
             System.out.println("A[]: ");
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < l; i++) {
                 a[i] = in.nextInt();
             }
             System.out.println("Pos: ");
-            p = in.nextInt();
+            n = in.nextInt();
         }
     }
 
-    public int p(int n) {
-        p = this.a[1] + this.d * (n - 1);
-        return this.p;
+    public int p() {
+        d = a[1] - a[0];
+        part = a[0] + d * (n - 1);
+        System.out.println("D: " + d);
+        System.out.println("Part: " + part);
+        return part;
     }
 
-    public int s(int n) {
-        s = ((this.a[1] + this.a[n]) / 2) * n;
-        return this.s;
+    public int s() {
+        sum = ((a[0] + part) / 2) * n;
+        System.out.println("An: " + part);
+        System.out.println("Sum: " + sum);
+        return sum;
     }
 
-    public String toString() {
-        return "Lp" + p + "\nLs=" + s;
+    public void toStr() {
+        System.out.println("\nLp: " + part + "\nLs: " + sum);
     }
 }
 
-class exponential extends Series {
+class Exponential extends Series {
 
-    int pa;
-    int su;
+    int part = 0;
+    int sum = 0;
     int[] b = new int[10];
+    int q;
+    int p = 1;
+    int n = 0;
 
-    public exponential() {
+    public int pow(int a, int b) {
+        for (int i = 1; i <= b; i++) {
+            p = p * a;
+        }
+        return p;
+    }
+
+    public void l() {
         try (Scanner in = new Scanner(System.in)) {
-            System.out.println("n: ");
-            int n = in.nextInt();
-            System.out.println("A[]: ");
-            for (int i = 0; i < n; i++) {
+            System.out.println("\n\nn: ");
+            int l = in.nextInt();
+            System.out.println("B[]: ");
+            for (int i = 0; i < l; i++) {
                 b[i] = in.nextInt();
             }
             System.out.println("Pos: ");
-            pa = in.nextInt();
+            n = in.nextInt();
         }
     }
 
-    public int Ep(int n) {
-        pa = b[1] + pow(q, (n - 1));
-        return pa;
+    public int p() {
+        q = a[1] / a[0];
+        part = b[0] + pow(q, (n - 1));
+        System.out.println("q: " + q);
+        System.out.println("q^(n-1): " + pow(q, (n - 1)));
+        System.out.println("Part: " + part);
+        return part;
     }
 
-    public int Es(int n) {
-        su = (b[1] * (pow(q, (n)) - 1)) / (q - 1);
-        return su;
+    public int s() {
+        sum = (b[0] * (pow(q, n) - 1)) / (q - 1);
+        System.out.println("q^(n): " + pow(q, n));
+        System.out.println("Part: " + sum);
+        return sum;
     }
 
-    public String toString() {
-        return "\nEp" + pa + "\nEs=" + su;
+    public void toStr() {
+        System.out.println("\nEp: " + part + "\nEs: " + sum);
     }
 }
