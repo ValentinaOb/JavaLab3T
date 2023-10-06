@@ -41,21 +41,19 @@ public class Main {
     }
 
     public static void main2(String[] args) {
-        try (Scanner in = new Scanner(System.in)) {
+        /*
+         * Linear one = new Linear();
+         * one.l();
+         * one.p();
+         * one.s();
+         * one.toStr();
+         */
+        Exponential two = new Exponential();
+        two.l();
+        two.p();
+        two.s();
+        two.toStr();
 
-            Linear one = new Linear();
-            one.l();
-            one.p();
-            one.s();
-            one.toStr();
-
-            Exponential two = new Exponential();
-            two.l();
-            two.p();
-            two.s();
-            two.toStr();
-
-        }
     }
 }
 
@@ -193,7 +191,7 @@ class Linear extends Series {
 
     public int p() {
         d = a[1] - a[0];
-        part = a[0] + d * (n - 1);
+        part = a[0] + d * (n);
         System.out.println("D: " + d);
         System.out.println("Part: " + part);
         return part;
@@ -216,12 +214,12 @@ class Exponential extends Series {
     int part = 0;
     int sum = 0;
     int[] b = new int[10];
-    int q;
-    int p = 1;
+    int q = 0;
     int n = 0;
 
     public int pow(int a, int b) {
-        for (int i = 1; i <= b; i++) {
+        int p = 1;
+        for (int i = 0; i < b; i++) {
             p = p * a;
         }
         return p;
@@ -241,22 +239,21 @@ class Exponential extends Series {
     }
 
     public int p() {
-        q = a[1] / a[0];
-        part = b[0] + pow(q, (n - 1));
+        q = b[1] / b[0];
+        part = pow(q, (n + 1));
         System.out.println("q: " + q);
-        System.out.println("q^(n-1): " + pow(q, (n - 1)));
+        System.out.println("q^(n+1): " + pow(q, (n + 1)));
         System.out.println("Part: " + part);
         return part;
     }
 
     public int s() {
-        sum = (b[0] * (pow(q, n) - 1)) / (q - 1);
-        System.out.println("q^(n): " + pow(q, n));
+        sum = (b[0] * (pow(q, n + 1) - 1)) / (q - 1);
         System.out.println("Part: " + sum);
         return sum;
     }
 
     public void toStr() {
-        System.out.println("\nEp: " + part + "\nEs: " + sum);
+        System.out.println("\nEp: " + part + "\nEs: " + sum + "\n");
     }
 }
